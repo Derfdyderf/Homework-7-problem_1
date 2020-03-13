@@ -57,7 +57,31 @@ public class ArrayDictionary implements Dictionary {
     // Return true if an entry is deleted, false otherwise
     @Override
     public boolean remove(int key) {
-        // homework
+
+        if (this.isEmpty())                     //returns false if empty
+            return false;
+
+        int hashedKey = hashFunction(key);      //finding the hash key and assigning pointer
+        KVEntry ptr = entries[hashedKey];
+
+        if (ptr == null)
+            return false;
+        if (ptr.next == null) {                 //if only one key assigned to the hash key, remove it
+            if (entries[hashedKey] != null) {
+                entries[hashedKey] = null;
+                return true;
+            }
+            return false;
+        }
+
+        while (ptr.next != null) {              //moving along the linked list, if the correct key is found,
+            if (ptr.next.key == key) {          //remove it from the list
+                ptr.next = ptr.next.next;
+                return true;
+            }
+            ptr = ptr.next;
+        }
+
         return false;
     }
 
@@ -65,7 +89,31 @@ public class ArrayDictionary implements Dictionary {
     // with the key
     @Override
     public boolean contains(int key) {
-        // homework
+
+        if (this.isEmpty())                     //returns false if empty
+            return false;
+
+        int hashedKey = hashFunction(key);      //finding the hash key and assigning pointer
+        KVEntry ptr = entries[hashedKey];
+
+        if (ptr == null)
+            return false;
+        if (ptr.next == null) {                 //if only one key assigned to the hash key
+            if ((ptr.key == key)) {
+                return true;
+            }
+            return false;
+        }
+
+        if (ptr.key == key)
+            return true;
+        while (ptr.next != null) {              //moving along the linked list, if the correct key is found,
+            if (ptr.next.key == key) {          //return true
+                return true;
+            }
+            ptr = ptr.next;
+        }
+
         return false;
     }
 
